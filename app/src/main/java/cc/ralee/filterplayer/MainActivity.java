@@ -100,9 +100,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
-        properties.root = new File(DialogConfigs.DEFAULT_DIR);
-        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
-        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        String dir = "/sdcard/Download";
+        properties.root = new File(dir);
+        properties.error_dir = new File(dir);
+        properties.offset = new File(dir);
         properties.extensions = null;
         dialog = new FilePickerDialog(MainActivity.this, properties);
         dialog.setTitle("Select a File");
