@@ -3,6 +3,7 @@ package cc.ralee.filterplayer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.opengl.GLException;
 import android.util.Log;
@@ -37,6 +38,7 @@ public class ScreenShotUtil {
         try {
             gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE,
                     intBuffer);
+
             int offset1, offset2;
 
             for (int i = 0; i < h; i++) {
@@ -48,6 +50,21 @@ public class ScreenShotUtil {
                     int red = (texturePixel << 16) & 0x00ff0000;
                     int pixel = (texturePixel & 0xff00ff00) | red | blue;
                     bitmapSource[offset2 + j] = pixel;
+
+                    if ( j == w-1) {
+                        int color = pixel;
+                        int r = Color.red(color);
+                        int g = Color.green(color);
+                        int b = Color.blue(color);
+                        int a = Color.alpha(color);
+
+                        String r1=Integer.toHexString(r);
+                        String g1=Integer.toHexString(g);
+                        String b1=Integer.toHexString(b);
+
+                        Log.i(TAGS,"#" + r1+g1+b1);
+                    }
+
                 }
             }
         } catch (GLException e) {
