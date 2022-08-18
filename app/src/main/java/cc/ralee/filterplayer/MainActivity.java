@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listenControl = (LinearLayout)findViewById(R.id.listen_control);
         selectFileBtn = (Button)findViewById(R.id.open_file);
         control = (LinearLayout)findViewById(R.id.control);
+
+        // 获取android.opengl.GLSurfaceView控件
         glSurfaceView = (GLSurfaceView) findViewById(R.id.glSurfaceView);
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekbar);
 

@@ -11,8 +11,6 @@ import java.io.IOException;
 /**
  * MediaPlayer plays video to a surface ,then use OpenGL renderer the surface
  */
-
-
 public class MediaPlayerWithSurface implements  MediaPlayer.OnPreparedListener {
 
     private MediaPlayer mediaPlayer;
@@ -26,6 +24,7 @@ public class MediaPlayerWithSurface implements  MediaPlayer.OnPreparedListener {
         mediaPlayer = new MediaPlayer();
         this.seekBar = seekBar;
     }
+
     public void playVideoToSurface() {
         preparePlayer();
     }
@@ -49,6 +48,8 @@ public class MediaPlayerWithSurface implements  MediaPlayer.OnPreparedListener {
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+
+        // 播放器关联Surface
         mediaPlayer.setSurface(mSurface);
         mediaPlayer.start();
         isPlaying = true;

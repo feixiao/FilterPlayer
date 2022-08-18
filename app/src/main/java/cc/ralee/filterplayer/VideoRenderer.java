@@ -45,6 +45,8 @@ public class VideoRenderer extends SurfaceView implements GLSurfaceView.Renderer
     private int mNewFilter;
     private boolean mIncomingSizeUpdated;
 
+    private int mImgCount = 1;
+
     public VideoRenderer(Context context, GLSurfaceView glSurfaceView, SeekBar seekBar, String videoPath) {
         super(context);
         this.mGLSurfaceView = glSurfaceView;
@@ -164,6 +166,16 @@ public class VideoRenderer extends SurfaceView implements GLSurfaceView.Renderer
 
     @Override
     public void onDrawFrame(GL10 gl) {
+
+
+        if(mImgCount % (30*5) == 0) {
+            // Android 路径关系 https://blog.csdn.net/yingchengyou/article/details/115064424
+            // /data/user/0/<应用包名>/files
+            String path = getContext().getFilesDir().getPath();
+            ScreenShotUtil.screenShot(getContext(),path, gl,0, 0, mGLSurfaceView.getWidth(), mGLSurfaceView.getHeight());
+        }
+
+        mImgCount++;
 
         mSurfaceTexture.updateTexImage();
 
