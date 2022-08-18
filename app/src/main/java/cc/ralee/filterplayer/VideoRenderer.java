@@ -121,12 +121,24 @@ public class VideoRenderer extends SurfaceView implements GLSurfaceView.Renderer
         mCurrentFilter = mNewFilter;
     }
 
+
+    /**
+    *   此方法看名字就知道它是在Surface创建的时候被调用的。
+     *   因此我们可以在这个函数的实现中做一些初始化的工作。
+     *   第一个参数非常重要。如果说Renderer是画笔的话，那么这个gl参数，就可以说是我们的手了。如何操作这支画笔，都是它说了算！
+     *   所以我们绝大部分时候都是通过这个叫做gl的手来指挥Renderer画图的。
+    */
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.d(TAG, "onSurfaceCreated: ");
+
         mFullScreen = new FullFrameRect(
                 new Texture2dProgram(Texture2dProgram.ProgramType.TEXTURE_EXT));
+
+
         mTextureId = mFullScreen.createTextureObject();
+
+
         mSurfaceTexture = new SurfaceTexture(mTextureId);
 
         mSurface = new Surface(mSurfaceTexture);

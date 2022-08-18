@@ -34,14 +34,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static final String TAG = "MainActivity";
     //change your file path here
 
+    // GLSurfaceView是Android应用程序中实现OpenGl画图的重要组成部分。
+    // GLSurfaceView中封装了一个Surface,而android平台下关于图像的现实，差不多都是由Surface来实现的。
     private GLSurfaceView glSurfaceView ;
     private VideoRenderer videoRenderer;
     private FilePickerDialog dialog = null;
     private String videoPath = null;
 
     private boolean controlOn = true;
-    private boolean touchFlag= true
-            ;
+
     static final int FILTER_NONE = 0;
     static final int FILTER_BLACK_WHITE = 1;
     static final int FILTER_BLUR = 2;
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button selectFileBtn;
     private NiceSpinner niceSpinner;
     private LinearLayout control;
-    private LinearLayout listenControl;
     static int PLAY_PAUSE_FLAG = 1;
 
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         niceSpinner = (NiceSpinner)findViewById(R.id.cameraFilter_spinner);
         List<String> dataset = new LinkedList<>(Arrays.asList("正常 ","黑白 ", "模糊 ", "锐化 ", "边缘 ", "浮雕 "));
         niceSpinner.attachDataSource(dataset);
-        listenControl = (LinearLayout)findViewById(R.id.listen_control);
+        LinearLayout listenControl = (LinearLayout) findViewById(R.id.listen_control);
         selectFileBtn = (Button)findViewById(R.id.open_file);
         control = (LinearLayout)findViewById(R.id.control);
 
@@ -76,7 +76,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         glSurfaceView = (GLSurfaceView) findViewById(R.id.glSurfaceView);
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekbar);
 
+
+        // 有了GLSurfaceView之后，就相当于我们有了画图的纸。现在我们所需要做的就是如何在这张纸上画图,所以我们需要一支笔。
+        // Renderer是GLSurfaceView的内部静态接口，它就相当于在此GLSurfaceView上作画的笔。我们通过实现这个接口来“作画”。
+        // 最后通过GLSurfaceView的setRenderer(GLSurfaceView.Renderer renderer)方法，就可以将纸笔关联起来了。
+        // 实现Renderer需要实现它的三个接口：
+        //      onSurfaceCreated(GL10 gl, EGLConfig config)、
+        //      onSurfaceChanged(GL10 gl, int width, int height)、
+        //      onDrawFrame(GL10 gl)。
         videoRenderer = new VideoRenderer(MainActivity.this, glSurfaceView, seekBar, videoPath);
+
+        // 选择OpenGL版本以及设置Render
         glSurfaceView.setEGLContextClientVersion(2);
         glSurfaceView.setRenderer(videoRenderer);
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -165,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Log.d(TAG, "onClick:  GLSurfaceView clicked");
                 if(controlOn == false){
                     control.setVisibility(View.VISIBLE);
-                    touchFlag = true;
                     controlOn = true;
                 }else{
                     controlOn = false;
@@ -222,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if(v.getId()!= R.id.glSurfaceView){
-            touchFlag = true;
         }
         return false;
     }
