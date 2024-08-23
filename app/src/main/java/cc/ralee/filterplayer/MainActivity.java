@@ -1,5 +1,7 @@
 package cc.ralee.filterplayer;
 
+import android.media.MediaCodecInfo;
+import android.media.MediaCodecList;
 import android.opengl.GLSurfaceView;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -104,9 +106,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         selectFileBtn.setOnClickListener(this);
         glSurfaceView.setOnClickListener(this);
 
-
+        showMediaCodecInfo();
     }
 
+    private void showMediaCodecInfo() {
+        MediaCodecList mediaCodecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
+        MediaCodecInfo[] mediaCodecInfos = mediaCodecList.getCodecInfos();
+        for (MediaCodecInfo mediaCodecInfo : mediaCodecInfos) {
+            Log.d(TAG, "showMediaCodecInfo: " + mediaCodecInfo.getName());
+            String[] supportedTypes = mediaCodecInfo.getSupportedTypes();
+            for (String supportedType : supportedTypes) {
+                Log.d(TAG, "showMediaCodecInfo: supportedType: " + supportedType);
+            }
+        }
+    }
 
     private void setSelectDialog() {
         DialogProperties properties = new DialogProperties();
